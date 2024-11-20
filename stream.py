@@ -3,21 +3,30 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns 
 
-# Título e introdução
-st.title("Relatório do Trabalho Prático - Algoritmo LZW")
+# Título e Introdução
+st.title("Compressão e Descompressão com LZW")
 st.markdown("""
-Este relatório apresenta os resultados e análises do trabalho prático para a disciplina **DCC207 - Algoritmos 2**. 
-O objetivo foi implementar o algoritmo de compressão LZW e avaliar seu desempenho com diferentes tipos de dados.
+            
+Este relatório apresenta os resultados e análises do Trabalho Prático, realizado para a disciplina **DCC207 - Algoritmos 2**. 
+O objetivo foi implementar o algoritmo de compressão LZW em duas implementações distintas e avaliar seu desempenho com diferentes tipos de dados.
+            
+---
+            
+### Integrantes:
+
+            * Samira Malaquias       2022107580
+            * Victoria Estanislau    2021037490
+            
 """)
 
 # Explicação do Algoritmo
 st.header("Explicação do Algoritmo LZW e Métodos Utilizados")
 st.markdown("""
-O algoritmo **LZW (Lempel-Ziv-Welch)** é uma técnica de compressão sem perdas que substitui padrões repetidos nos dados por códigos inteiros, usando um **dicionário dinâmico** para mapear sequências de entrada. A seguir, explicamos as implementações da compressão e descompressão estática e dinâmica, com suporte para dicionários de tamanhos variáveis.
+O algoritmo **LZW (Lempel-Ziv-Welch)** é uma técnica de compressão sem perdas que substitui padrões repetidos nos dados por códigos inteiros, usando um **dicionário dinâmico** para mapear sequências de entrada. A seguir, explicamos as implementações da compressão e descompressão estática e dinâmica, com suporte para dicionários de tamanhos variáveis.          
 
 ### 1. Codificação Estática (`lzw_encoder`)
-Na codificação estática, o código do dicionário tem um tamanho fixo, determinado pelo parâmetro `bits_max`, que define o número máximo de bits para representar os códigos. O processo é descrito a seguir:
-
+Na codificação estática, o código do dicionário tem um tamanho fixo, determinado pelo parâmetro `bits_max`, que define o número máximo de bits para representar os códigos. O processo é descrito a seguir:          
+            
 - **Inicialização do Dicionário**:
   - O dicionário começa com todas as sequências de um único byte (256 entradas), mapeadas para seus códigos ASCII correspondentes.
 - **Construção do Dicionário**:
@@ -54,7 +63,7 @@ A decodificação dinâmica reconstrói os dados compactados, adaptando-se ao ta
   - O decodificador recria sequências conforme os códigos são lidos, garantindo que novos padrões sejam adicionados ao dicionário à medida que aparecem.
 
 ### 5. Manipulação de Bits
-Para lidar com tamanhos variáveis de códigos, são utilizados os utilitários `Bit_writer` e `Bit_reader`, que permitem a leitura e escrita de números inteiros com um número específico de bits.
+Para lidar com tamanhos variáveis de códigos na versão dinâmica do LZW, são utilizados os utilitários `Bit_writer` e `Bit_reader`, que permitem a leitura e escrita de números inteiros com um número específico de bits.
 
 - **Bit_writer**: 
   - Compacta os códigos em sequência, garantindo alinhamento adequado ao salvar no arquivo.
