@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns 
 
 # Título e Introdução
-st.title("Compressão e Descompressão de arquivos com LZW")
+st.title("testeCompressão e Descompressão de arquivos com LZW")
 st.markdown("""
             
 Este relatório apresenta os resultados e análises do Trabalho Prático, realizado para a disciplina **DCC207 - Algoritmos 2**. 
