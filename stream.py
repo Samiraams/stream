@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns 
 
 # Título e Introdução
-st.title("testeCompressão e Descompressão de arquivos com LZW")
+st.title("Compressão e Descompressão de arquivos com LZW")
 st.markdown("""
             
 Este relatório apresenta os resultados e análises do Trabalho Prático, realizado para a disciplina **DCC207 - Algoritmos 2**. 
@@ -80,13 +80,13 @@ Para lidar com tamanhos variáveis de códigos na versão dinâmica do LZW, são
 """)
 
 # Análises e Resultados
-st.image("compression_rate_vs_bits", caption="", use_column_width=True)
-st.image("compression_rate_vs_time_fixed", caption="", use_column_width=True)
-st.image("compression_rate_vs_time_variable", caption="", use_column_width=True)
-st.image("dictionary_growth_fixed.png", caption="", use_column_width=True)
-st.image("dictionary_growth_variable.png", caption="", use_column_width=True)
-st.image("execution_time_vs_bits.png", caption="", use_column_width=True)
-st.image("heatmap_compression_rate.png", caption="", use_column_width=True)
+st.image("images/compression_rate_vs_bits", caption="", use_column_width=True)
+st.image("images/compression_rate_vs_time_fixed", caption="", use_column_width=True)
+st.image("images/compression_rate_vs_time_variable", caption="", use_column_width=True)
+st.image("images/dictionary_growth_fixed.png", caption="", use_column_width=True)
+st.image("images/dictionary_growth_variable.png", caption="", use_column_width=True)
+st.image("images/execution_time_vs_bits.png", caption="", use_column_width=True)
+st.image("images/heatmap_compression_rate.png", caption="", use_column_width=True)
 
 # Conclusão
 st.header("Conclusão")
