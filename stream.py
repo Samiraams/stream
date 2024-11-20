@@ -76,11 +76,28 @@ Para lidar com tamanhos variáveis de códigos na versão dinâmica do LZW, são
 - A compressão estática é simples e eficiente para entradas menores ou padrões previsíveis.
 - A compressão dinâmica é ideal para entradas maiores, oferecendo melhor compactação ao adaptar o tamanho do dicionário.
 - Manipular tamanhos de bits requer maior controle de memória e precisão para evitar erros de alinhamento.
-
+---
 """)
 
 # Análises e Resultados
+st.header("Análises e Resultados")
+
+st.markdown("""
+
+Primeiramente, nosso objetivo foi avaliar o comportamento de ambas versões do algoritmo para diferentes tipos de arquivos.
+Os tipos considerados nas análises subsequentes foram: txt, bmp, csv e pdf. Escolhemos esses dois formatos adicionais por
+serem de utilidade frequente no nosso dia a dia, e gostaríamos de avaliar o quanto o método implementado seria efetivo.
+            
+Para explorar os resultados obtidos, vamos apresentá-los em duas etapas: primeiramente no aspecto da compressão e, em seguida,
+avaliando a descompressão desses arquivos. Todas as métricas seguintes foram feitas com base na média obtida de três execuções
+com arquivos distintos.
+
+### Compressão
+        
+""")
+
 st.image("images/compression_rate_vs_bits.png", caption="", use_column_width=True)
+
 st.image("images/compression_rate_vs_time_fixed.png", caption="", use_column_width=True)
 st.image("images/compression_rate_vs_time_variable.png", caption="", use_column_width=True)
 st.image("images/dictionary_growth_fixed.png", caption="", use_column_width=True)
