@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns 
 
 # Título e Introdução
-st.title("Compressão e Descompressão com LZW")
+st.title("Compressão e Descompressão de arquivos com LZW")
 st.markdown("""
             
 Este relatório apresenta os resultados e análises do Trabalho Prático, realizado para a disciplina **DCC207 - Algoritmos 2**. 
@@ -14,10 +14,12 @@ O objetivo foi implementar o algoritmo de compressão LZW em duas implementaçõ
             
 ### Integrantes:
 
-            * Samira Malaquias       2022107580
-            * Victoria Estanislau    2021037490
+- Samira Malaquias       2022107580
+- * Victoria Estanislau    2021037490
             
 """)
+
+
 
 # Explicação do Algoritmo
 st.header("Explicação do Algoritmo LZW e Métodos Utilizados")
