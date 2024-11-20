@@ -96,12 +96,38 @@ com arquivos distintos.
         
 """)
 
+st.markdown("""
+
+O gráfico abaixo apresenta o comportamento da taxa de compressão em relação ao número máximo de bits utilizado. Podemos verificar que, no geral, a versão variável do algoritmo teve um desempenho melhor quando comparamos com a versão fixa. No caso da versão fixa, vemos que ela apresenta uma taxa de compressão relativamente estável para a maioria dos arquivos a partir de 12 bits, enquanto a versão variável exibe um crescimento mais pronunciado nas taxas de compressão à medida que os bits aumentam. Arquivos como bmp e csv obtêm maior benefício do aumento do tamanho do dicionário na versão variável. É importante notar o quanto o algoritmo em nenhuma de suas versões foi efetivo para arquivos pdf, uma vez que ao comprimir ele acabou por aumentar o tamanho do arquivo. Isso ocorre porque arquivos pdf já são otimizados no sentido de compressão, uma vez que ele deve armazenar textos e figuras de maneira eficiente, além de que muito possívelmente o algoritmo não foi capaz de identificar muitos padrões para reduzi-lo. Em contrapartida, vemos que arquivos csv que são muito utilizados para manipulação de dados, por exemplo, foi de maneira consistente o de melhor taxa de compressão para a versão variável do LZW.
+
+""")
+
 st.image("images/compression_rate_vs_bits.png", caption="", use_column_width=True)
 
-st.image("images/compression_rate_vs_time_fixed.png", caption="", use_column_width=True)
-st.image("images/compression_rate_vs_time_variable.png", caption="", use_column_width=True)
+st.markdown("""
+
+Para o gráfico seguite, temos o crescimento do dicionário utilizado na compressão entre os diferentes tipos de arquivos. Primeiramente, vamos avaliar o comportamento para a sua versão fixa. Observando o gráfico, vemos o quanto arquivos pdf tiveram mais entradas em relação aos demais tipos de arquivos uma vez que, como dito anteriormente, arquivos pdf podem ter estruturas com padrões mais difíceis de serem identificado, isso se tiverem algum padrão. Além disso, arquivos BMP também apresentam um crescimento acentuado com o crescimento do tamanho de bits, o que pode ter acontecido também devido à baixa redundância nos dados da imagem, o que leva o algoritmo a criar novas entradas para representar os padrões. Quanto aos arquivos csv e txt é possível verificar também um crescimento das entradas, porém muito mais reduzido em relação aos anteriores.
+
+""")
+
+# st.image("images/compression_rate_vs_time_fixed.png", caption="", use_column_width=True)
+# st.image("images/compression_rate_vs_time_variable.png", caption="", use_column_width=True)
 st.image("images/dictionary_growth_fixed.png", caption="", use_column_width=True)
+
+st.markdown("""
+
+Agora, avaliando o crescimento do dicionário no algoritmo variável, vemos que o número de entradas no dicionário para arquivos pdf é ainda superior em relação a versão fixa do algoritmo. Quanto a arquivos BMP, vemos que para valores maiores de comprimento dos bits seu número de entradas é reduzido. Quanto a arquivos csv e txt temos uma concentração maior para 10000 entradas, sendo um pouco inferior a esse valor para valores máximos de 11, 12 e 13.
+
+""")
+
 st.image("images/dictionary_growth_variable.png", caption="", use_column_width=True)
+
+st.markdown("""
+
+
+
+""")
+
 st.image("images/execution_time_vs_bits.png", caption="", use_column_width=True)
 st.image("images/heatmap_compression_rate.png", caption="", use_column_width=True)
 
