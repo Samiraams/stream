@@ -16,7 +16,7 @@ st.markdown("""
 O algoritmo **LZW (Lempel-Ziv-Welch)** é uma técnica de compressão sem perdas que substitui padrões repetidos nos dados por códigos inteiros, usando um **dicionário dinâmico** para mapear sequências de entrada. A seguir, explicamos as implementações da compressão e descompressão estática e dinâmica, com suporte para dicionários de tamanhos variáveis.
 
 ### 1. Codificação Estática (`lzw_encoder`)
-Na codificação estática, o dicionário tem um tamanho fixo, determinado pelo parâmetro `bits_max`, que define o número máximo de bits para representar os códigos. O processo é descrito a seguir:
+Na codificação estática, o código do dicionário tem um tamanho fixo, determinado pelo parâmetro `bits_max`, que define o número máximo de bits para representar os códigos. O processo é descrito a seguir:
 
 - **Inicialização do Dicionário**:
   - O dicionário começa com todas as sequências de um único byte (256 entradas), mapeadas para seus códigos ASCII correspondentes.
