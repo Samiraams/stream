@@ -80,9 +80,9 @@ Para lidar com tamanhos variáveis de códigos na versão dinâmica do LZW, são
 """)
 
 # Análises e Resultados
-st.image("images/compression_rate_vs_bits", caption="", use_column_width=True)
-st.image("images/compression_rate_vs_time_fixed", caption="", use_column_width=True)
-st.image("images/compression_rate_vs_time_variable", caption="", use_column_width=True)
+st.image("images/compression_rate_vs_bits.png", caption="", use_column_width=True)
+st.image("images/compression_rate_vs_time_fixed.png", caption="", use_column_width=True)
+st.image("images/compression_rate_vs_time_variable.png", caption="", use_column_width=True)
 st.image("images/dictionary_growth_fixed.png", caption="", use_column_width=True)
 st.image("images/dictionary_growth_variable.png", caption="", use_column_width=True)
 st.image("images/execution_time_vs_bits.png", caption="", use_column_width=True)
