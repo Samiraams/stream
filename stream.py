@@ -22,58 +22,60 @@ O objetivo foi implementar o algoritmo de compressão LZW em duas implementaçõ
 # Explicação do Algoritmo
 st.header("Explicação do Algoritmo LZW e Métodos Utilizados")
 st.markdown("""
-O algoritmo **LZW (Lempel-Ziv-Welch)** é uma técnica de compressão sem perdas que substitui padrões repetidos nos dados por códigos inteiros, usando um **dicionário dinâmico** para mapear sequências de entrada. A seguir, explicamos as implementações da compressão e descompressão estática e dinâmica, com suporte para dicionários de tamanhos variáveis.          
-
-### 1. Codificação Estática (`lzw_encoder`)
-Na codificação estática, o código do dicionário tem um tamanho fixo, determinado pelo parâmetro `bits_max`, que define o número máximo de bits para representar os códigos. O processo é descrito a seguir:          
             
-- **Inicialização do Dicionário**:
-  - O dicionário começa com todas as sequências de um único byte (256 entradas), mapeadas para seus códigos ASCII correspondentes.
-- **Construção do Dicionário**:
-  - À medida que os dados são lidos, o algoritmo verifica se uma sequência já existe no dicionário:
-    - Se a sequência existe, ela é ampliada com o próximo byte.
-    - Caso contrário, a sequência anterior é codificada, adicionada ao dicionário com um novo código, e a sequência atual é redefinida.
-- **Codificação Final**:
-  - No final da entrada, quaisquer sequências restantes também são codificadas e adicionadas ao dicionário.
+O **algoritmo LZW (Lempel-Ziv-Welch)** é uma técnica de compressão sem perdas que substitui padrões repetidos nos dados por códigos inteiros exclusivos. Ele constrói um dicionário que mapeia sequências de entrada para códigos, permitindo uma representação mais compacta dos dados sem perda de informação.
 
-Essa abordagem mantém o tamanho do dicionário estável, mas é limitada por `bits_max`.
+#### 1. Compressão Estática (`lzw_encoder`)
 
-### 2. Decodificação Estática (`lzw_decoder`)
-Na decodificação estática, o processo reverte a codificação para reconstruir os dados originais. Ele utiliza um dicionário que:
-- Inicializa com as 256 sequências de um byte.
-- Reconstrói sequências conforme os códigos são lidos, adicionando novas combinações ao dicionário.
+Na compressão estática, o tamanho dos códigos é fixo, determinado pelo parâmetro `bits_max`, que define o número máximo de bits para representar cada código. O processo começa inicializando um dicionário com todas as sequências de um único byte (256 entradas correspondentes aos códigos ASCII). Conforme os dados são lidos, o algoritmo forma sequências e verifica se elas já existem no dicionário:
 
-A decodificação também verifica se o código lido é válido, gerando erros para códigos inválidos.
+- **Se a sequência existe**, continua adicionando bytes para formar uma sequência maior.
+- **Se a sequência não existe**:
+  - Emite o código da sequência anterior.
+  - Adiciona a nova sequência ao dicionário (se o limite não foi atingido).
+  - Reinicia a construção da sequência com o byte atual.
 
-### 3. Codificação Dinâmica (`lzw_encoder_variable`)
-A versão dinâmica permite o crescimento do dicionário com um número variável de bits, começando em 9 bits e aumentando progressivamente até o limite `bits_max`. O processo inclui:
+#### 2. Descompressão Estática (`lzw_decoder`)
 
-- **Ajuste do Tamanho do Dicionário**:
-  - Sempre que o número de códigos no dicionário ultrapassa o limite de bits atual, o número de bits utilizados é incrementado.
-  - O limite do dicionário cresce de forma exponencial com cada incremento nos bits.
-- **Eficiência Dinâmica**:
-  - Essa abordagem melhora a compressão para arquivos grandes, onde padrões adicionais são identificados e representados com mais precisão.
+A descompressão estática reverte o processo de compressão usando o mesmo tamanho fixo de códigos. O dicionário é inicializado da mesma forma e reconstruído à medida que os códigos são lidos:
 
-### 4. Decodificação Dinâmica (`lzw_decoder_variable`)
-A decodificação dinâmica reconstrói os dados compactados, adaptando-se ao tamanho variável do dicionário:
+- Lê cada código do arquivo compactado.
+- Converte o código na sequência correspondente usando o dicionário.
+- Adiciona novas sequências ao dicionário, combinando sequências anteriores com novos bytes.
+- Reconstrói os dados originais emitindo as sequências decodificadas.
 
-- **Incremento dos Bits**:
-  - Sempre que o número de códigos no dicionário ultrapassa o limite de bits atual, o decodificador aumenta a largura dos códigos.
-- **Reconstrução Dinâmica**:
-  - O decodificador recria sequências conforme os códigos são lidos, garantindo que novos padrões sejam adicionados ao dicionário à medida que aparecem.
+#### 3. Compressão Dinâmica (`lzw_encoder_variable`)
 
-### 5. Manipulação de Bits
-Para lidar com tamanhos variáveis de códigos na versão dinâmica do LZW, são utilizados os utilitários `Bit_writer` e `Bit_reader`, que permitem a leitura e escrita de números inteiros com um número específico de bits.
+Na compressão dinâmica, o tamanho dos códigos pode aumentar conforme o dicionário cresce, começando geralmente com 9 bits e podendo chegar até o limite definido por `bits_max`. O algoritmo ajusta dinamicamente o número de bits necessários para representar os códigos:
 
-- **Bit_writer**: 
-  - Compacta os códigos em sequência, garantindo alinhamento adequado ao salvar no arquivo.
-- **Bit_reader**:
-  - Lê os códigos compactados do arquivo e os reconstrói para serem interpretados pelo algoritmo.
+- Inicia com um dicionário básico, como na versão estática.
+- Conforme novas sequências são adicionadas e o número de entradas excede o que pode ser representado com o número atual de bits, incrementa o tamanho dos códigos em um bit.
+- Isso permite que o dicionário cresça e capture padrões mais complexos, potencialmente melhorando a taxa de compressão em arquivos maiores.
 
-### Benefícios e Limitações
-- A compressão estática é simples e eficiente para entradas menores ou padrões previsíveis.
-- A compressão dinâmica é ideal para entradas maiores, oferecendo melhor compactação ao adaptar o tamanho do dicionário.
-- Manipular tamanhos de bits requer maior controle de memória e precisão para evitar erros de alinhamento.
+#### 4. Descompressão Dinâmica (`lzw_decoder_variable`)
+
+A descompressão dinâmica acompanha as mudanças no tamanho dos códigos feitas durante a compressão:
+
+- Inicia com o mesmo dicionário básico.
+- Lê os códigos do arquivo compactado, ajustando o número de bits conforme necessário.
+- Reconstrói as sequências originais usando o dicionário atualizado.
+- Adiciona novas sequências ao dicionário e incrementa o tamanho dos códigos em sincronia com o processo de compressão.
+            
+#### 5. Decisão de Implementação para Descompressões
+            
+Optamos por escrever no header dos arquivos comprimidos informações para guiar a descompressão mais facilmente. Os dados armazenados foram: a extensão do arquivo original, o tipo de compressão (fixo ou variável) e o tamanho máximo dos bits usados.
+
+#### 6. Manipulação de Bits
+
+Para lidar com tamanhos de códigos variáveis, fizemos uso de métodos auxiliares:
+
+- **Bit_writer**: Escreve os códigos no arquivo compactado, garantindo que cada código use exatamente o número correto de bits e que os bits sejam alinhados corretamente no fluxo de saída.
+- **Bit_reader**: Lê os códigos do arquivo compactado, interpretando corretamente a quantidade de bits que compõe cada código, especialmente quando o tamanho dos códigos muda dinamicamente.
+
+#### Benefícios e Limitações
+
+Ambos algoritmos tem um comportamento melhor para dados que são mais redundantes, ou seja, que sejam mais fáceis de identificar padrões. No caso da versão estática, temos uma implementação mais simples que a segunda, e um uso mais consistente de memória, porém o tamanho fixo do dicionário pode limitar a eficiência em arquivos com muitos padrões únicos ou complexos. Para a versão dinâmica/variável, temos uma melhor adaptação ao conteúdo dos dados, potencialmente melhorando a taxa de compressão por conseguir capturar padrões mais longos e complexos, mas sua implementação é mais complexa e tem um maior uso de memória.
+
 ---
 """)
 
@@ -101,6 +103,14 @@ O gráfico abaixo apresenta o comportamento da taxa de compressão em relação 
 """)
 
 st.image("images/compression_rate_vs_bits.png", caption="", use_column_width=True)
+
+st.markdown("""
+
+Na próxima visualização estão dispostas as variações da razão de compressão pelo número de bits máximos. Arquivos com alta redundância, como TXT e CSV, apresentam as maiores razões de compressão, alcançando um resultado melhor em ambas as estratégias, com uma leve vantagem para a compressão variável, que utiliza dicionários maiores para capturar padrões mais complexos. Já arquivos mais complexos, como PDFs e BMPs, apresentam razões de compressão mais baixas, principalmente na compressão fixa, devido à limitação no tamanho do dicionário. Na compressão variável, observa-se uma melhoria significativa na razão de compressão para esses arquivos a partir de 13 bits, mostrando que padrões complexos podem ser melhor representados com dicionários dinâmicos.
+
+""")
+
+st.image("images/compression_ratio_vs_bits.png", caption="", use_column_width=True)
 
 st.markdown("""
 
@@ -162,15 +172,14 @@ Abaixo, vemos o comportamento do uso da memória na descompressão. O gráfico e
 
 st.image("images/memory_usage_decompression.png", caption="", use_column_width=True)
 
-
 # Conclusão
 st.header("Conclusão")
 st.markdown("""
-O algoritmo LZW provou ser altamente eficiente e versátil em diferentes cenários de compressão, apresentando resultados que variam conforme o tipo de arquivo e a configuração do dicionário. Nos testes realizados, foram avaliados arquivos de texto com tamanho de 74.248 bits e arquivos de imagem bitmap com 2.097.584 bits, considerando versões dinâmica e estática do algoritmo, e o impacto de diferentes números máximos de bits variando entre 9 e 16.
+            
+Após a realização das análises, concluímos que o algoritmo LZW, em suas versões estática e dinâmica, apresenta desempenhos variados dependendo do tipo de arquivo e dos parâmetros configurados. A compressão para os dois métodos demonstrou maior eficiência em arquivos com alta redundância, como os arquivos txt e csv, porém a versão variável alcançou taxas de compressão superiores quando comparada à versão estática. No entanto, para arquivos como PDF, que já possuem algum nível de compressão ou possuem padrões menos evidentes, ambas as versões não foram eficazes, resultando até mesmo no aumento do tamanho do arquivo após a compressão.
 
-Para arquivos de texto, o LZW atingiu taxas de compressão elevadas, com um máximo de 47,81%, demonstrando alta eficiência em identificar e compactar padrões repetitivos típicos desse formato. Além disso, o tempo de compressão e descompressão foi insignificante, permanecendo estável independentemente do tamanho do dicionário, o que reflete a simplicidade dos padrões encontrados nos textos.
+Observamos também que o número máximo de bits é um fator crucial que influencia diretamente o desempenho dos algoritmos. Na compressão dinâmica, o aumento do número de bits permitiu um crescimento do dicionário, capturando sequências mais longas e aprimorando a taxa de compressão. Entretanto, isso também acarretou em um maior uso de memória e tempo de processamento, especialmente em arquivos complexos. Por outro lado, a compressão estática, com seu tamanho de dicionário fixo, proporcionou um uso de recursos mais consistente, embora com taxas de compressão inferiores em certos casos.
 
-Por outro lado, em arquivos de imagem bitmap, as taxas de compressão foram mais variáveis, alcançando até 59,5% com dicionários maiores. O tempo de compressão e descompressão foi significativamente mais elevado em comparação aos textos, especialmente para configurações com dicionários pequenos. No entanto, observou-se uma redução substancial nos tempos à medida que o número máximo de bits aumentava, indicando que dicionários maiores conseguem otimizar de forma expressiva o desempenho para arquivos de imagem, que possuem padrões mais complexos.
-
-Em suma, o LZW é uma ferramenta poderosa para compressão de dados, mas seu desempenho depende diretamente das características do arquivo e da configuração do dicionário. Futuros trabalhos podem explorar variantes do LZW, como versões adaptativas, para lidar com diferentes tipos de dados e aumentar a eficiência em cenários mais diversos. Além disso, incluir testes com outros formatos de arquivo, como áudio e vídeo, pode expandir ainda mais a aplicabilidade do algoritmo.
+Em suma, a escolha entre a compressão estática e dinâmica deve levar em consideração o tipo de arquivo e os recursos computacionais disponíveis. A compressão dinâmica é recomendada para arquivos grandes e com muitos padrões repetitivos, enquanto a compressão estática pode ser mais adequada para arquivos menores ou quando há limitações de memória e processamento. Existem melhorias que podem ser implementadas para aumentar a taxa de compressão dos arquivos, pois mesmo que tenham tido certa redução, não tiveram valores tão marcantes quanto seria desejado em um uso prático, por exemplo.
+                                   
 """)
