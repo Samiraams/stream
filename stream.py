@@ -124,12 +124,21 @@ st.image("images/dictionary_growth_variable.png", caption="", use_column_width=T
 
 st.markdown("""
 
-
+O gráfico seguinte exibe os valores de tempo de execução médio para a compressão desses diferentes tipos de arquivos. O arquivo pdf possui um tempo de execução maior em relação aos demais, muito associado a quantidade de entradas no dicionário que ele deve gerar para identificação de padrões no texto. Para a versão variável, o tempo de execução é maior para configurações de bits menores (9-11 bits) e reduz gradualmente à medida que o número de bits aumenta. Quanto a arquivos BMP, eles também possuem tempos de execução maiores com dicionários pequenos na versão variável, que diminuem conforme o número de bits cresce. Isso indica que o bmp, sendo um formato de imagem, possui padrões mais difíceis de capturar com dicionários pequenos. Para os arquivos txt e csv, os tempos de execução são consistentemente baixos em ambas as versões do algoritmo, com pouca variação conforme o número máximo de bits aumenta.
 
 """)
 
 st.image("images/execution_time_vs_bits.png", caption="", use_column_width=True)
+
+st.markdown("""
+
+Para finalizar os resultados referentes à compressão desses arquivos, abaixo está disposto um mapa de calor indicando a taxa de compressão para os tipos de arquivos em função do número máximo de bits configurados e da versão do algoritmo LZW.  Arquivos como bmp e csv se beneficiam significativamente de dicionários maiores, especialmente na versão variável, que adapta o tamanho progressivamente, atingindo taxas de compressão superiores a 30%. Em contraste, arquivos pdf, devido à sua complexidade e ao fato de frequentemente conterem dados já comprimidos, resultam em taxas negativas (expansão) em ambas as versões do algoritmo, reforçando a inadequação do LZW para esse formato. Para arquivos txt, a redundância estrutural permite compressões moderadas na versão fixa (~16%) e superiores na versão variável (~25%), mesmo com dicionários pequenos.
+
+""")
+
 st.image("images/heatmap_compression_rate.png", caption="", use_column_width=True)
+
+st.markdown("### Descompressão")
 
 # Conclusão
 st.header("Conclusão")
