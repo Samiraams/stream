@@ -140,6 +140,11 @@ st.image("images/heatmap_compression_rate.png", caption="", use_column_width=Tru
 
 st.markdown("### Descompressão")
 
+st.image("images/decompression_dictionary_growth.png", caption="", use_column_width=True)
+st.image("images/decompression_execution_time.png", caption="", use_column_width=True)
+st.image("images/memory_usage_decompression.png", caption="", use_column_width=True)
+
+
 # Conclusão
 st.header("Conclusão")
 st.markdown("""
