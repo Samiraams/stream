@@ -19,8 +19,6 @@ O objetivo foi implementar o algoritmo de compressão LZW em duas implementaçõ
             
 """)
 
-
-
 # Explicação do Algoritmo
 st.header("Explicação do Algoritmo LZW e Métodos Utilizados")
 st.markdown("""
@@ -124,7 +122,7 @@ st.image("images/dictionary_growth_variable.png", caption="", use_column_width=T
 
 st.markdown("""
 
-O gráfico seguinte exibe os valores de tempo de execução médio para a compressão desses diferentes tipos de arquivos. O arquivo pdf possui um tempo de execução maior em relação aos demais, muito associado a quantidade de entradas no dicionário que ele deve gerar para identificação de padrões no texto. Para a versão variável, o tempo de execução é maior para configurações de bits menores (9-11 bits) e reduz gradualmente à medida que o número de bits aumenta. Quanto a arquivos BMP, eles também possuem tempos de execução maiores com dicionários pequenos na versão variável, que diminuem conforme o número de bits cresce. Isso indica que o bmp, sendo um formato de imagem, possui padrões mais difíceis de capturar com dicionários pequenos. Para os arquivos txt e csv, os tempos de execução são consistentemente baixos em ambas as versões do algoritmo, com pouca variação conforme o número máximo de bits aumenta.
+O gráfico seguinte exibe os valores de tempo de execução médio para a compressão desses diferentes tipos de arquivos. O arquivo pdf possui um tempo de execução maior em relação aos demais, muito associado a quantidade de entradas no dicionário que ele deve gerar para identificação de padrões no texto. Para a versão variável em txt e csv, o tempo de execução é maior para configurações de bits menores (9-11 bits) e reduz gradualmente à medida que o número de bits aumenta. Quanto a arquivos BMP, eles também possuem tempos de execução maiores com dicionários pequenos na versão variável, que diminuem conforme o número de bits cresce. Isso indica que o bmp, sendo um formato de imagem, possui padrões mais difíceis de capturar com dicionários pequenos. Para os arquivos txt e csv, os tempos de execução são consistentemente baixos em ambas as versões do algoritmo, com pouca variação conforme o número máximo de bits aumenta.
 
 """)
 
@@ -140,8 +138,28 @@ st.image("images/heatmap_compression_rate.png", caption="", use_column_width=Tru
 
 st.markdown("### Descompressão")
 
+st.markdown("""
+
+No gráfico a seguir temos o crescimento do dicionário na etapa de descompressão. A maioria dos arquivos comprimidos usando uma estratégia de compressão fixa apresenta um dicionário que atinge um tamanho estável, mesmo com o aumento do número máximo de bits, exceto para o caso do pdf, cujo dicionário cresce significativamente com o aumento dos bits máximos. Para o método variável, houve um comportamento mais dinâmico, com o tamanho do dicionário variando de acordo com o número de bits máximos permitidos. No BMP, por exemplo, cresce rapidamente com tamanhos maiores de bits máximos.
+
+""")
+
 st.image("images/decompression_dictionary_growth.png", caption="", use_column_width=True)
+
+st.markdown("""
+
+Quanto ao tempo de execução da descompressão, é possível verificar que seu comportamento também foi semelhante ao comportamento no gráfico de compressão, exceto pelo fato de que o tempo de execução na descompressão é um pouco menor em relação à compressão. O tempo de execução para a descompressão de arquivos com compressão fixa permanece estável e consistentemente baixo para todos os tipos de arquivos. Isso ocorre porque o tamanho do dicionário é limitado e não cresce dinamicamente durante o processo. Qunato ao variável, eles apresentam maior variação no tempo de execução da descompressão. O tempo tende a ser maior inicialmente, especialmente para tipos de arquivos como PDF e BMP, mas diminui progressivamente à medida que o número de bits máximos aumenta.
+
+""")
+
 st.image("images/decompression_execution_time.png", caption="", use_column_width=True)
+
+st.markdown("""
+
+Abaixo, vemos o comportamento do uso da memória na descompressão. O gráfico evidencia como a estratégia de compressão (fixa ou variável) e o tipo de arquivo influenciam o uso de memória durante a descompressão. Na versão fixa, o uso de memória permanece baixo e constante para todos os tipos de arquivo, devido ao tamanho limitado do dicionário, garantindo estabilidade e previsibilidade. Por outro lado, na compressão variável, o uso de memória varia significativamente, especialmente para arquivos mais complexos como PDFs e BMPs, onde há um aumento expressivo à medida que os bits máximos crescem, refletindo a necessidade de dicionários maiores para representar padrões complexos. Os arquivos txt mostram um comportamento inverso na compressão variável, com um uso inicial elevado de memória que diminui conforme os bits máximos aumentam, indicando maior eficiência na compactação de padrões. Quanto a arquivos csv, eles apresentam baixo uso de memória em ambas as estratégias. Esses resultados mostram que a compressão variável pode ser mais custosa em termos de memória para arquivos complexos, enquanto a compressão fixa oferece maior controle e eficiência no uso de recursos.
+
+""")
+
 st.image("images/memory_usage_decompression.png", caption="", use_column_width=True)
 
 
